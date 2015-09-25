@@ -867,17 +867,17 @@ static CGFloat edgeSizeFromCornerRadius(CGFloat cornerRadius) {
 
 - (BOOL)isPassthroughView:(UIView *)view
 {
-	if (view == nil)
+    if (view == nil)
     {
-		return NO;
-	}
-	
-	if ([self.passthroughViews containsObject:view])
+        return NO;
+    }
+    
+    if ([self.passthroughViews containsObject:view])
     {
-		return YES;
-	}
-	
-	return [self isPassthroughView:view.superview];
+        return YES;
+    }
+    
+    return [self isPassthroughView:view.superview];
 }
 
 #pragma mark - UIAccessibility
@@ -1673,7 +1673,7 @@ static WYPopoverTheme *defaultTheme_ = nil;
         theme.innerCornerRadius = appearance.innerCornerRadius;
         theme.viewContentInsets = appearance.viewContentInsets;
         theme.overlayColor = appearance.overlayColor;
-
+        
         themeIsUpdating = NO;
         themeUpdatesEnabled = YES;
         
@@ -1711,8 +1711,8 @@ static WYPopoverTheme *defaultTheme_ = nil;
     
     NSArray *keypaths = [theme observableKeypaths];
     for (NSString *keypath in keypaths) {
-		[theme addObserver:self forKeyPath:keypath options:NSKeyValueObservingOptionNew context:NULL];
-	}
+        [theme addObserver:self forKeyPath:keypath options:NSKeyValueObservingOptionNew context:NULL];
+    }
 }
 
 - (void)unregisterTheme
@@ -2123,15 +2123,15 @@ static WYPopoverTheme *defaultTheme_ = nil;
     CGAffineTransform transform = backgroundView.transform;
     
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-
+    
     CGSize containerViewSize = backgroundView.frame.size;
     
     if (backgroundView.arrowHeight > 0)
     {
-        if (UIDeviceOrientationIsLandscape(orientation)) {
-            containerViewSize.width = backgroundView.frame.size.height;
-            containerViewSize.height = backgroundView.frame.size.width;
-        }
+        //        if (UIDeviceOrientationIsLandscape(orientation)) {
+        //            containerViewSize.width = backgroundView.frame.size.height;
+        //            containerViewSize.height = backgroundView.frame.size.width;
+        //        }
         
         //WY_LOG(@"containerView.arrowOffset = %f", containerView.arrowOffset);
         //WY_LOG(@"containerViewSize = %@", NSStringFromCGSize(containerViewSize));
@@ -2206,8 +2206,8 @@ static WYPopoverTheme *defaultTheme_ = nil;
     CGFloat minX, maxX, minY, maxY, offset = 0;
     CGSize containerViewSize = CGSizeZero;
     
-    CGFloat overlayWidth = UIInterfaceOrientationIsPortrait(orientation) ? overlayView.bounds.size.width : overlayView.bounds.size.height;
-    CGFloat overlayHeight = UIInterfaceOrientationIsPortrait(orientation) ? overlayView.bounds.size.height : overlayView.bounds.size.width;
+    CGFloat overlayWidth = overlayView.bounds.size.width;
+    CGFloat overlayHeight = overlayView.bounds.size.height;
     
     WYPopoverArrowDirection arrowDirection = permittedArrowDirections;
     
@@ -2503,7 +2503,7 @@ static WYPopoverTheme *defaultTheme_ = nil;
     containerFrame = backgroundView.frame;
     
     containerFrame.origin = WYPointRelativeToOrientation(containerOrigin, containerFrame.size, orientation);
-
+    
     if (aAnimated == YES) {
         backgroundView.frame = savedContainerFrame;
         __weak __typeof__(self) weakSelf = self;
@@ -2718,17 +2718,17 @@ static WYPopoverTheme *defaultTheme_ = nil;
     
     //if (!isTouched)
     //{
-        BOOL shouldDismiss = !viewController.modalInPopover;
-        
-        if (shouldDismiss && delegate && [delegate respondsToSelector:@selector(popoverControllerShouldDismissPopover:)])
-        {
-            shouldDismiss = [delegate popoverControllerShouldDismissPopover:self];
-        }
-        
-        if (shouldDismiss)
-        {
-            [self dismissPopoverAnimated:animated options:options completion:nil callDelegate:YES];
-        }
+    BOOL shouldDismiss = !viewController.modalInPopover;
+    
+    if (shouldDismiss && delegate && [delegate respondsToSelector:@selector(popoverControllerShouldDismissPopover:)])
+    {
+        shouldDismiss = [delegate popoverControllerShouldDismissPopover:self];
+    }
+    
+    if (shouldDismiss)
+    {
+        [self dismissPopoverAnimated:animated options:options completion:nil callDelegate:YES];
+    }
     //}
 }
 
@@ -2966,10 +2966,10 @@ static CGFloat WYStatusBarHeight() {
         CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
         statusBarHeight = statusBarFrame.size.height;
         
-        if (UIDeviceOrientationIsLandscape(orienation))
-        {
-            statusBarHeight = statusBarFrame.size.width;
-        }
+        //        if (UIDeviceOrientationIsLandscape(orienation))
+        //        {
+        //            statusBarHeight = statusBarFrame.size.width;
+        //        }
     }
     
     return statusBarHeight;
@@ -2979,21 +2979,21 @@ static CGFloat WYInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation o
 {
     CGFloat angle;
     
-    switch (orientation)
-    {
-        case UIInterfaceOrientationPortraitUpsideDown:
-            angle = M_PI;
-            break;
-        case UIInterfaceOrientationLandscapeLeft:
-            angle = -M_PI_2;
-            break;
-        case UIInterfaceOrientationLandscapeRight:
-            angle = M_PI_2;
-            break;
-        default:
-            angle = 0.0;
-            break;
-    }
+    //    switch (orientation)
+    //    {
+    //        case UIInterfaceOrientationPortraitUpsideDown:
+    //            angle = M_PI;
+    //            break;
+    //        case UIInterfaceOrientationLandscapeLeft:
+    //            angle = -M_PI_2;
+    //            break;
+    //        case UIInterfaceOrientationLandscapeRight:
+    //            angle = M_PI_2;
+    //            break;
+    //        default:
+    angle = 0.0;
+    //            break;
+    //    }
     
     return angle;
 }
@@ -3007,27 +3007,27 @@ static CGRect WYRectInWindowBounds(CGRect rect, UIInterfaceOrientation orientati
     
     CGRect result = rect;
     
-    if (orientation == UIInterfaceOrientationLandscapeRight) {
-        
-        result.origin.x = rect.origin.y;
-        result.origin.y = windowWidth - rect.origin.x - rect.size.width;
-        result.size.width = rect.size.height;
-        result.size.height = rect.size.width;
-    }
-    
-    if (orientation == UIInterfaceOrientationLandscapeLeft) {
-        
-        result.origin.x = windowHeight - rect.origin.y - rect.size.height;
-        result.origin.y = rect.origin.x;
-        result.size.width = rect.size.height;
-        result.size.height = rect.size.width;
-    }
-    
-    if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
-        
-        result.origin.x = windowWidth - rect.origin.x - rect.size.width;
-        result.origin.y = windowHeight - rect.origin.y - rect.size.height;
-    }
+    //    if (orientation == UIInterfaceOrientationLandscapeRight) {
+    //
+    //        result.origin.x = rect.origin.y;
+    //        result.origin.y = windowWidth - rect.origin.x - rect.size.width;
+    //        result.size.width = rect.size.height;
+    //        result.size.height = rect.size.width;
+    //    }
+    //
+    //    if (orientation == UIInterfaceOrientationLandscapeLeft) {
+    //
+    //        result.origin.x = windowHeight - rect.origin.y - rect.size.height;
+    //        result.origin.y = rect.origin.x;
+    //        result.size.width = rect.size.height;
+    //        result.size.height = rect.size.width;
+    //    }
+    //
+    //    if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
+    //
+    //        result.origin.x = windowWidth - rect.origin.x - rect.size.width;
+    //        result.origin.y = windowHeight - rect.origin.y - rect.size.height;
+    //    }
     
     return result;
 }
@@ -3041,20 +3041,20 @@ static CGPoint WYPointRelativeToOrientation(CGPoint origin, CGSize size, UIInter
     
     CGPoint result = origin;
     
-    if (orientation == UIInterfaceOrientationLandscapeRight) {
-        result.x = windowWidth - origin.y - size.width;
-        result.y = origin.x;
-    }
-    
-    if (orientation == UIInterfaceOrientationLandscapeLeft) {
-        result.x = origin.y;
-        result.y = windowHeight - origin.x - size.height;
-    }
-    
-    if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
-        result.x = windowWidth - origin.x - size.width;
-        result.y = windowHeight - origin.y - size.height;
-    }
+    //    if (orientation == UIInterfaceOrientationLandscapeRight) {
+    //        result.x = windowWidth - origin.y - size.width;
+    //        result.y = origin.x;
+    //    }
+    //
+    //    if (orientation == UIInterfaceOrientationLandscapeLeft) {
+    //        result.x = origin.y;
+    //        result.y = windowHeight - origin.x - size.height;
+    //    }
+    //
+    //    if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
+    //        result.x = windowWidth - origin.x - size.width;
+    //        result.y = windowHeight - origin.y - size.height;
+    //    }
     
     return result;
 }
